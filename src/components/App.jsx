@@ -7,14 +7,28 @@ export class App extends Component {
     initialValue: 0,
   };
 
+  // state = {
+  //   contacts: [],
+  //   name: '',
+  //   number: '',
+  //   filter: '',
+  // };
+
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
 
   static propTypes = {
     name: PropTypes.string,
+    filter: PropTypes.string,
     contacts: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
@@ -37,6 +51,16 @@ export class App extends Component {
     form.reset();
   };
 
+  handleFilter = e => {
+    const form = e.currentTarget;
+    const filter = form.elements.filter.value;
+    this.setState(state => {
+      return {
+        filter: filter,
+      };
+    });
+  };
+
   render() {
     return (
       <div>
@@ -57,12 +81,27 @@ export class App extends Component {
           />
           <button type="submit">Add contact</button>
         </form>
+        <h4>Contacts</h4>
+        <form onChange={this.handleFilter}>
+          <input
+            type="text"
+            name="filter"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          />
+        </form>
         <ul>
-          {this.state.contacts.map(el => (
-            <li key={el.id}>
-              {el.name}: {el.number}
-            </li>
-          ))}
+          {this.state.contacts
+            .filter(el => {
+              return el.name
+                .toLowerCase()
+                .includes(this.state.filter.toLowerCase());
+            })
+            .map(el => (
+              <li key={el.id}>
+                {el.name}: {el.number}
+              </li>
+            ))}
         </ul>
       </div>
     );
