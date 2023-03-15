@@ -76,6 +76,18 @@ export class App extends Component {
     });
   };
 
+  handleDelete = id => {
+    const { contacts } = this.state;
+    const index = contacts.findIndex(contact => contact.id === id);
+    Notify.info(`${contacts[index].name.toUpperCase()} was deleted.`);
+    contacts.splice(index, 1);
+    this.setState(state => {
+      return {
+        contacts: contacts,
+      };
+    });
+  };
+
   render() {
     return (
       <div>
@@ -87,6 +99,7 @@ export class App extends Component {
         <ContactList
           contacts={this.state.contacts}
           filter={this.state.filter}
+          handleDelete={this.handleDelete}
         />
       </div>
     );

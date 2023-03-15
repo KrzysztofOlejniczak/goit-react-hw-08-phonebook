@@ -19,7 +19,7 @@ export class ContactList extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.props;
+    const { contacts, filter, handleDelete } = this.props;
     return (
       <ul>
         {contacts
@@ -28,7 +28,10 @@ export class ContactList extends Component {
           })
           .map(el => (
             <li key={el.id}>
-              {el.name}: {el.number}
+              {el.name}: {el.number}{' '}
+              <button onClick={() => handleDelete(el.id)} type="button">
+                Delete
+              </button>
             </li>
           ))}
       </ul>
