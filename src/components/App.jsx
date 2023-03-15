@@ -4,6 +4,12 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+Notify.init({
+  closeButton: true,
+  position: 'center-top',
+});
 
 export class App extends Component {
   // state = {
@@ -42,6 +48,17 @@ export class App extends Component {
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
+    if (
+      this.state.contacts.find(
+        contact =>
+          contact.name.toLowerCase().replace(/\s/g, '') ===
+          name.toLowerCase().replace(/\s/g, '')
+      )
+    ) {
+      Notify.failure(`${name} is already in contacts!`);
+      return;
+    }
+    console.log('test');
     this.setState(state => {
       return {
         contacts: [...this.state.contacts, { id: nanoid(), name, number }],
