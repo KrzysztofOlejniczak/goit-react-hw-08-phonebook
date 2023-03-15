@@ -1,12 +1,11 @@
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { ContactForm } from './ContactForm/ContactForm';
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
 
 export class App extends Component {
-  static defaultProps = {
-    initialValue: 0,
-  };
-
   // state = {
   //   contacts: [],
   //   name: '',
@@ -64,45 +63,15 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-          <input
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-          <button type="submit">Add contact</button>
-        </form>
-        <h4>Contacts</h4>
-        <form onChange={this.handleFilter}>
-          <input
-            type="text"
-            name="filter"
-            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          />
-        </form>
-        <ul>
-          {this.state.contacts
-            .filter(el => {
-              return el.name
-                .toLowerCase()
-                .includes(this.state.filter.toLowerCase());
-            })
-            .map(el => (
-              <li key={el.id}>
-                {el.name}: {el.number}
-              </li>
-            ))}
-        </ul>
+        <h1>Phonebook</h1>
+        <ContactForm handleSubmit={this.handleSubmit} />
+
+        <h2>Contacts</h2>
+        <Filter handleFilter={this.handleFilter} />
+        <ContactList
+          contacts={this.state.contacts}
+          filter={this.state.filter}
+        />
       </div>
     );
   }
