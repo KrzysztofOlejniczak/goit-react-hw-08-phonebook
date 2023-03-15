@@ -4,30 +4,11 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
-Notify.init({
-  position: 'center-top',
-});
 
 export class App extends Component {
-  // state = {
-  //   contacts: [],
-  //   name: '',
-  //   number: '',
-  //   filter: '',
-  // };
-
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
-    name: '',
-    number: '',
   };
 
   static propTypes = {
@@ -54,10 +35,9 @@ export class App extends Component {
           name.toLowerCase().replace(/\s/g, '')
       )
     ) {
-      Notify.failure(`${name.toUpperCase()} is already in contacts!`);
+      alert(`${name.toUpperCase()} is already in contacts!`);
       return;
     }
-    Notify.success(`${name.toUpperCase()} added to contact list.`);
     this.setState(state => {
       return {
         contacts: [...this.state.contacts, { id: nanoid(), name, number }],
@@ -79,22 +59,46 @@ export class App extends Component {
   handleDelete = id => {
     const { contacts } = this.state;
     const index = contacts.findIndex(contact => contact.id === id);
-    Notify.info(`${contacts[index].name.toUpperCase()} was deleted.`);
+
     contacts.splice(index, 1);
     this.setState(state => {
       return {
-        contacts: contacts,
+        contacts,
       };
     });
   };
 
   render() {
     return (
-      <div>
-        <h1>Phonebook</h1>
+      <div
+        style={{
+          margin: '0 auto',
+          width: '60%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'start',
+          justifyContent: 'center',
+          fontSize: 20,
+        }}
+      >
+        <h1
+          style={{
+            fontWeight: 500,
+            paddingTop: 20,
+            paddingBottom: 20,
+          }}
+        >
+          Phonebook
+        </h1>
         <ContactForm handleSubmit={this.handleSubmit} />
 
-        <h2>Contacts</h2>
+        <h2
+          style={{
+            fontWeight: 500,
+          }}
+        >
+          Contacts
+        </h2>
         <Filter handleFilter={this.handleFilter} />
         <ContactList
           contacts={this.state.contacts}

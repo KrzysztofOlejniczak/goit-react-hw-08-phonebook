@@ -1,13 +1,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from './ContactList.module.css';
 
 export class ContactList extends Component {
-  state = {
-    contacts: '',
-    filter: '',
-  };
-
   static propTypes = {
+    handleDelete: PropTypes.func.isRequired,
     filter: PropTypes.string,
     contacts: PropTypes.arrayOf(
       PropTypes.shape({
@@ -21,15 +18,19 @@ export class ContactList extends Component {
   render() {
     const { contacts, filter, handleDelete } = this.props;
     return (
-      <ul>
+      <ul className={styles.list}>
         {contacts
           .filter(el => {
             return el.name.toLowerCase().includes(filter.toLowerCase());
           })
           .map(el => (
-            <li key={el.id}>
+            <li key={el.id} className={styles.item}>
               {el.name}: {el.number}{' '}
-              <button onClick={() => handleDelete(el.id)} type="button">
+              <button
+                onClick={() => handleDelete(el.id)}
+                type="button"
+                className={styles.btn}
+              >
                 Delete
               </button>
             </li>
