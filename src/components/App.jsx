@@ -7,7 +7,6 @@ import { ContactList } from './ContactList/ContactList';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 Notify.init({
-  closeButton: true,
   position: 'center-top',
 });
 
@@ -55,10 +54,10 @@ export class App extends Component {
           name.toLowerCase().replace(/\s/g, '')
       )
     ) {
-      Notify.failure(`${name} is already in contacts!`);
+      Notify.failure(`${name.toUpperCase()} is already in contacts!`);
       return;
     }
-    console.log('test');
+    Notify.success(`${name.toUpperCase()} added to contact list.`);
     this.setState(state => {
       return {
         contacts: [...this.state.contacts, { id: nanoid(), name, number }],
