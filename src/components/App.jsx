@@ -39,8 +39,11 @@ export class App extends Component {
       return;
     }
     this.setState(state => {
+      const newContacts = [...state.contacts, { id: nanoid(), name, number }];
+      localStorage.setItem('phonebook', JSON.stringify(newContacts));
+      console.log(JSON.stringify(newContacts));
       return {
-        contacts: [...this.state.contacts, { id: nanoid(), name, number }],
+        contacts: newContacts,
       };
     });
     form.reset();
@@ -61,12 +64,29 @@ export class App extends Component {
     const index = contacts.findIndex(contact => contact.id === id);
 
     contacts.splice(index, 1);
+    localStorage.setItem('phonebook', JSON.stringify(contacts));
     this.setState(state => {
       return {
         contacts,
       };
     });
   };
+
+  componentDidMount() {
+    try {
+      const dataFromLocal = localStorage.getItem('phonebook');
+      const parsedDataFromLocal = JSON.parse(dataFromLocal);
+      if (parsedDataFromLocal !== null) {
+        this.setState(state => {
+          return {
+            contacts: parsedDataFromLocal,
+          };
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   render() {
     return (
