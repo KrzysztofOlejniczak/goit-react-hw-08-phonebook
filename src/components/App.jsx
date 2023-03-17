@@ -40,8 +40,6 @@ export class App extends Component {
     }
     this.setState(state => {
       const newContacts = [...state.contacts, { id: nanoid(), name, number }];
-      localStorage.setItem('phonebook', JSON.stringify(newContacts));
-      console.log(JSON.stringify(newContacts));
       return {
         contacts: newContacts,
       };
@@ -64,7 +62,6 @@ export class App extends Component {
     const index = contacts.findIndex(contact => contact.id === id);
 
     contacts.splice(index, 1);
-    localStorage.setItem('phonebook', JSON.stringify(contacts));
     this.setState(state => {
       return {
         contacts,
@@ -88,6 +85,11 @@ export class App extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      localStorage.setItem('phonebook', JSON.stringify(this.state.contacts));
+    }
+  }
   render() {
     return (
       <div
