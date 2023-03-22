@@ -86,6 +86,7 @@ export class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('test');
     if (prevState !== this.state) {
       localStorage.setItem('phonebook', JSON.stringify(this.state.contacts));
     }
