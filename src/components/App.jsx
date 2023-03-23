@@ -1,35 +1,33 @@
-import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
+export const App = () => {
+  const loadFromLocalStorage = () => {
+    try {
+      const dataFromLocal = localStorage.getItem('phonebook');
+      const parsedDataFromLocal = JSON.parse(dataFromLocal);
+      if (parsedDataFromLocal !== null) {
+        return parsedDataFromLocal;
+      }
+      return [];
+    } catch (error) {
+      return [];
+    }
   };
 
-  static propTypes = {
-    name: PropTypes.string,
-    filter: PropTypes.string,
-    contacts: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        number: PropTypes.string,
-      }).isRequired
-    ),
-  };
+  const [contacts, setContacts] = useState(loadFromLocalStorage());
+  const [filter, setFilter] = useState('');
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
     if (
-      this.state.contacts.find(
+      contacts.find(
         contact =>
           contact.name.toLowerCase().replace(/\s/g, '') ===
           name.toLowerCase().replace(/\s/g, '')
@@ -38,96 +36,62 @@ export class App extends Component {
       alert(`${name.toUpperCase()} is already in contacts!`);
       return;
     }
-    this.setState(state => {
-      const newContacts = [...state.contacts, { id: nanoid(), name, number }];
-      return {
-        contacts: newContacts,
-      };
-    });
+    setContacts([...contacts, { id: nanoid(), name, number }]);
     form.reset();
   };
 
-  handleFilter = e => {
+  const handleFilter = e => {
     const form = e.currentTarget;
-    const filter = form.elements.filter.value;
-    this.setState(state => {
-      return {
-        filter: filter,
-      };
-    });
+    const filterValue = form.elements.filter.value;
+    setFilter(filterValue);
   };
 
-  handleDelete = id => {
-    const { contacts } = this.state;
+  const handleDelete = id => {
     const index = contacts.findIndex(contact => contact.id === id);
-
     contacts.splice(index, 1);
-    this.setState(state => {
-      return {
-        contacts,
-      };
-    });
+    setContacts([...contacts]);
   };
 
-  componentDidMount() {
-    try {
-      const dataFromLocal = localStorage.getItem('phonebook');
-      const parsedDataFromLocal = JSON.parse(dataFromLocal);
-      if (parsedDataFromLocal !== null) {
-        this.setState(state => {
-          return {
-            contacts: parsedDataFromLocal,
-          };
-        });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  useEffect(() => {
+    localStorage.setItem('phonebook', JSON.stringify(contacts));
+  }, [contacts]);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
-      localStorage.setItem('phonebook', JSON.stringify(this.state.contacts));
-    }
-  }
-  render() {
-    return (
-      <div
+  return (
+    <div
+      style={{
+        margin: '0 auto',
+        width: '60%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
+        justifyContent: 'center',
+        fontSize: 20,
+      }}
+    >
+      <h1
         style={{
-          margin: '0 auto',
-          width: '60%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'start',
-          justifyContent: 'center',
-          fontSize: 20,
+          fontWeight: 500,
+          paddingTop: 20,
+          paddingBottom: 20,
         }}
       >
-        <h1
-          style={{
-            fontWeight: 500,
-            paddingTop: 20,
-            paddingBottom: 20,
-          }}
-        >
-          Phonebook
-        </h1>
-        <ContactForm handleSubmit={this.handleSubmit} />
+        Phonebook
+      </h1>
+      <ContactForm handleSubmit={handleSubmit} />
 
-        <h2
-          style={{
-            fontWeight: 500,
-          }}
-        >
-          Contacts
-        </h2>
-        <Filter handleFilter={this.handleFilter} />
-        <ContactList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
-          handleDelete={this.handleDelete}
-        />
-      </div>
-    );
-  }
-}
+      <h2
+        style={{
+          fontWeight: 500,
+        }}
+      >
+        Contacts
+      </h2>
+      <Filter handleFilter={handleFilter} />
+      <ContactList
+        contacts={contacts}
+        filter={filter}
+        handleDelete={handleDelete}
+      />
+    </div>
+  );
+};
