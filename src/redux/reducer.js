@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { addContact, deleteContact, setFilter } from './actions';
+import { addContact, deleteContact } from './actions';
 
 const loadFromLocalStorage = () => {
   try {
@@ -26,10 +26,10 @@ export const contactsReducer = createReducer(contactsInitialState, {
   },
 });
 
-const filterInitialState = '';
+// const filterInitialState = '';
 
-export const filterReducer = createReducer(filterInitialState, {
-  [setFilter]: (state, action) => {
-    return action.payload;
-  },
-});
+// export const filterReducer = createReducer(filterInitialState, {
+//   [setFilter]: (state, action) => {
+//     return action.payload;
+//   },
+// });
