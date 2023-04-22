@@ -7,22 +7,6 @@ import { getContacts, getFilter } from 'redux/selectors';
 import { addContact, deleteContact, setFilter } from 'redux/actions';
 
 export const App = () => {
-  // const loadFromLocalStorage = () => {
-  //   try {
-  //     const dataFromLocal = localStorage.getItem('phonebook');
-  //     const parsedDataFromLocal = JSON.parse(dataFromLocal);
-  //     if (parsedDataFromLocal !== null) {
-  //       return parsedDataFromLocal;
-  //     }
-  //     return [];
-  //   } catch (error) {
-  //     return [];
-  //   }
-  // };
-
-  // const [contacts, setContacts] = useState(loadFromLocalStorage());
-  // const [filter, setFilter] = useState('');
-
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
