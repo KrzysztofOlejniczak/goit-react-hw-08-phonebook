@@ -1,25 +1,31 @@
-import { nanoid } from 'nanoid';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts, getFilter } from 'redux/selectors';
+import { addContact, deleteContact, setFilter } from 'redux/actions';
 
 export const App = () => {
-  const loadFromLocalStorage = () => {
-    try {
-      const dataFromLocal = localStorage.getItem('phonebook');
-      const parsedDataFromLocal = JSON.parse(dataFromLocal);
-      if (parsedDataFromLocal !== null) {
-        return parsedDataFromLocal;
-      }
-      return [];
-    } catch (error) {
-      return [];
-    }
-  };
+  // const loadFromLocalStorage = () => {
+  //   try {
+  //     const dataFromLocal = localStorage.getItem('phonebook');
+  //     const parsedDataFromLocal = JSON.parse(dataFromLocal);
+  //     if (parsedDataFromLocal !== null) {
+  //       return parsedDataFromLocal;
+  //     }
+  //     return [];
+  //   } catch (error) {
+  //     return [];
+  //   }
+  // };
 
-  const [contacts, setContacts] = useState(loadFromLocalStorage());
-  const [filter, setFilter] = useState('');
+  // const [contacts, setContacts] = useState(loadFromLocalStorage());
+  // const [filter, setFilter] = useState('');
+
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -36,20 +42,18 @@ export const App = () => {
       alert(`${name.toUpperCase()} is already in contacts!`);
       return;
     }
-    setContacts([...contacts, { id: nanoid(), name, number }]);
+    dispatch(addContact(name, number));
     form.reset();
   };
 
   const handleFilter = e => {
     const form = e.currentTarget;
     const filterValue = form.elements.filter.value;
-    setFilter(filterValue);
+    dispatch(setFilter(filterValue));
   };
 
   const handleDelete = id => {
-    const index = contacts.findIndex(contact => contact.id === id);
-    contacts.splice(index, 1);
-    setContacts([...contacts]);
+    dispatch(deleteContact(id));
   };
 
   useEffect(() => {
