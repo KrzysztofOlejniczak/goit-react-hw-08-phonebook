@@ -4,10 +4,10 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getContacts,
-  getError,
-  getFilter,
-  getIsLoading,
+  selectContacts,
+  selectError,
+  selectFilter,
+  selectIsLoading,
 } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
 // import { addContact, deleteContact } from 'redux/contactsSlice';
@@ -15,10 +15,10 @@ import { fetchContacts } from 'redux/operation';
 import { Spinner } from './Spinner/Spinner';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   const handleFilter = e => {
