@@ -3,33 +3,23 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
+import {
+  getContacts,
+  getError,
+  getFilter,
+  getIsLoading,
+} from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
-import { addContact, deleteContact } from 'redux/contactsSlice';
+// import { addContact, deleteContact } from 'redux/contactsSlice';
+import { fetchContacts } from 'redux/operation';
+import { Spinner } from './Spinner/Spinner';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
   const dispatch = useDispatch();
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const name = form.elements.name.value;
-    const number = form.elements.number.value;
-    if (
-      contacts.find(
-        contact =>
-          contact.name.toLowerCase().replace(/\s/g, '') ===
-          name.toLowerCase().replace(/\s/g, '')
-      )
-    ) {
-      alert(`${name.toUpperCase()} is already in contacts!`);
-      return;
-    }
-    dispatch(addContact(name, number));
-    form.reset();
-  };
 
   const handleFilter = e => {
     const form = e.currentTarget;
@@ -37,13 +27,9 @@ export const App = () => {
     dispatch(setFilter(filterValue));
   };
 
-  const handleDelete = id => {
-    dispatch(deleteContact(id));
-  };
-
   useEffect(() => {
-    localStorage.setItem('phonebook', JSON.stringify(contacts));
-  }, [contacts]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div
@@ -66,7 +52,10 @@ export const App = () => {
       >
         Phonebook
       </h1>
-      <ContactForm handleSubmit={handleSubmit} />
+
+      {isLoading && !error && <Spinner />}
+
+      <ContactForm />
 
       <h2
         style={{
@@ -76,11 +65,7 @@ export const App = () => {
         Contacts
       </h2>
       <Filter handleFilter={handleFilter} />
-      <ContactList
-        contacts={contacts}
-        filter={filter}
-        handleDelete={handleDelete}
-      />
+      <ContactList contacts={contacts} filter={filter} />
     </div>
   );
 };
