@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styles from './ContactList.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/operation';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 export const ContactList = ({ filter, contacts }) => {
   const dispatch = useDispatch();
@@ -18,13 +19,9 @@ export const ContactList = ({ filter, contacts }) => {
         .map(el => (
           <li key={el.id} className={styles.item}>
             {el.name}: {el.phone}{' '}
-            <button
-              onClick={() => handleDelete(el.id)}
-              type="button"
-              className={styles.btn}
-            >
-              Delete
-            </button>
+            <div onClick={() => handleDelete(el.id)} className={styles.btn}>
+              <DeleteTwoToneIcon />
+            </div>
           </li>
         ))}
     </ul>
