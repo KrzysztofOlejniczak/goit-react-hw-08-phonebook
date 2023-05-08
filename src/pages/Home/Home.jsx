@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material';
+import { Link, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const Home = () => {
   return (
@@ -7,7 +8,15 @@ export const Home = () => {
         Welcome to the PhoneBook
       </Typography>
       <Typography variant="h6" sx={{ mx: 'auto' }}>
-        Please log in or register!
+        Please{' '}
+        <Link component={RouterLink} to={'/login'}>
+          log in
+        </Link>{' '}
+        or{' '}
+        <Link component={RouterLink} to={'/signup'}>
+          register
+        </Link>
+        !
       </Typography>
     </>
   );
