@@ -1,7 +1,9 @@
-import { Box, Container } from '@mui/material';
+import { Box, Container, Link } from '@mui/material';
 import { blue, yellow } from '@mui/material/colors';
 import { Logo } from 'components/Logo/Logo';
-import { Outlet } from 'react-router-dom';
+import { NavMenu } from 'components/NavMenu/NavMenu';
+import { Suspense } from 'react';
+import { Outlet, Link as RoutedLink } from 'react-router-dom';
 
 export const SharedLayout = () => {
   return (
@@ -21,12 +23,25 @@ export const SharedLayout = () => {
           <Box
             display="flex"
             flexDirection="row"
+            flexWrap={'nowrap'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
             sx={{ p: 2, bgcolor: yellow[700], boxShadow: 1 }}
           >
-            <Logo />
+            <Link
+              component={RoutedLink}
+              to={'/'}
+              underline="none"
+              color={'inherit'}
+            >
+              <Logo />
+            </Link>
+            <NavMenu />
           </Box>
           <Box display="flex" flexDirection="column" sx={{ p: 2 }}>
-            <Outlet />
+            <Suspense fallback={null}>
+              <Outlet />
+            </Suspense>
           </Box>
         </Box>
       </Container>

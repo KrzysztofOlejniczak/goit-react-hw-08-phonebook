@@ -10,8 +10,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="signup" element={<Register />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </>
