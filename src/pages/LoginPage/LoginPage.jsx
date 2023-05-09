@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const Login = () => {
+export const LoginPage = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,11 +7,18 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
+import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate } from 'react-router-dom';
+import { Avatar } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+const loged = true;
+const name = 'Krzysztof';
 
 export const NavMenu = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
@@ -33,7 +39,11 @@ export const NavMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <MenuIcon sx={{ width: 32, height: 32 }} />
+            {loged ? (
+              <Avatar sx={{ width: 32, height: 32 }}>{name[0]}</Avatar>
+            ) : (
+              <MenuIcon sx={{ width: 32, height: 32 }} />
+            )}
           </IconButton>
         </Tooltip>
       </Box>
@@ -72,24 +82,32 @@ export const NavMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+        <MenuItem
+          onClick={() => {
+            navigate('/signup', { replace: true });
+          }}
+        >
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Sign up
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem
+          onClick={() => {
+            navigate('/login', { replace: true });
+          }}
+        >
+          <ListItemIcon>
+            <LoginIcon fontSize="small" />
+          </ListItemIcon>
+          Log in
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <AddIcon fontSize="small" />
           </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
+          Add contact
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

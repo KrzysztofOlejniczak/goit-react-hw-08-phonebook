@@ -1,10 +1,10 @@
 import { Link, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const Home = () => {
+export const HomePage = () => {
   return (
     <>
-      <Typography variant="h4" sx={{ mx: 'auto', mt: 8 }}>
+      <Typography variant="h4" sx={{ mx: 'auto', mt: 8, textAlign: 'center' }}>
         Welcome to the PhoneBook
       </Typography>
       <Typography variant="h6" sx={{ mx: 'auto' }}>
