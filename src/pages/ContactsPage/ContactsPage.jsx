@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ContactForm } from 'components/ContactForm/ContactForm';
+// import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
