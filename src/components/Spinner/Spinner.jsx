@@ -1,4 +1,4 @@
-import { SyncLoader } from 'react-spinners';
+import { CircularProgress } from '@mui/material';
 
 const spinnerStyle = {
   position: 'fixed',
@@ -22,7 +22,7 @@ export const Spinner = () => {
   return (
     <div style={backdropStyle}>
       <div style={spinnerStyle}>
-        <SyncLoader color="#4ecdff" />
+        <CircularProgress />
       </div>
     </div>
   );

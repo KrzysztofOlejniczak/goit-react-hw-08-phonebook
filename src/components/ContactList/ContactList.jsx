@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types';
-import styles from './ContactList.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/operation';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import {
+  Avatar,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const ContactList = ({ filter, contacts }) => {
   const dispatch = useDispatch();
@@ -10,21 +17,65 @@ export const ContactList = ({ filter, contacts }) => {
   const handleDelete = id => {
     dispatch(deleteContact(id));
   };
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name[0]}`,
+    };
+  }
   return (
-    <ul className={styles.list}>
-      {contacts
-        .filter(el => {
-          return el.name.toLowerCase().includes(filter.toLowerCase());
-        })
-        .map(el => (
-          <li key={el.id} className={styles.item}>
-            {el.name}: {el.phone}{' '}
-            <div onClick={() => handleDelete(el.id)} className={styles.btn}>
-              <DeleteTwoToneIcon />
-            </div>
-          </li>
-        ))}
-    </ul>
+    <>
+      <List>
+        {contacts
+          .filter(el => {
+            return el.name.toLowerCase().includes(filter.toLowerCase());
+          })
+          .map(el => (
+            <ListItem
+              key={el.id}
+              secondaryAction={
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => {
+                    handleDelete(el.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
+            >
+              <ListItemAvatar>
+                <Avatar {...stringAvatar(el.name)} />
+              </ListItemAvatar>
+              <ListItemText primary={el.name} secondary={el.phone} />
+            </ListItem>
+          ))}
+      </List>
+    </>
   );
 };
 
