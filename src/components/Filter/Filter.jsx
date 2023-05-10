@@ -13,6 +13,7 @@ export const Filter = () => {
   return (
     <Box component="form" onChange={handleFilter} noValidate>
       <TextField
+        size="small"
         margin="normal"
         id="filter"
         label="Search"

@@ -1,37 +1,52 @@
 import { useEffect } from 'react';
-// import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectContacts,
-  selectError,
-  selectFilter,
-  selectIsLoading,
-} from 'redux/selectors';
-// import { addContact, deleteContact } from 'redux/contactsSlice';
+import { selectContacts, selectFilter, selectModal } from 'redux/selectors';
 import { fetchContacts } from 'redux/operation';
-import { Spinner } from 'components/Spinner/Spinner';
+import { Box, Modal } from '@mui/material';
+import { closeModal } from 'redux/modalSlice';
+import { ContactForm } from 'components/ContactForm/ContactForm';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgColor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 export const ContactsPage = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  const modalOpen = useSelector(selectModal);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   return (
     <>
-      {isLoading && !error && <Spinner />}
-
-      {/* <ContactForm /> */}
-
       <Filter />
       <ContactList contacts={contacts} filter={filter} />
+      <Modal
+        open={modalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <ContactForm />
+        </Box>
+      </Modal>
     </>
   );
 };

@@ -1,5 +1,7 @@
 export const selectFilter = state => state.filter;
 
+export const selectModal = state => state.modal;
+
 export const selectContacts = state => state.contacts.items;
 
 export const selectIsLoading = state => state.contacts.isLoading;

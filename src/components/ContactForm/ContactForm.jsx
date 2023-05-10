@@ -1,4 +1,4 @@
-import styles from './ContactForm.module.css';
+import { Box, Button, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/operation';
 import { selectContacts } from 'redux/selectors';
@@ -27,34 +27,38 @@ export const ContactForm = () => {
   };
 
   return (
-    <div className={styles.contactForm}>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label className={styles.formItem}>
-          Name
-          <input
-            className={styles.formInput}
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </label>
-        <label className={styles.formItem}>
-          Number
-          <input
-            className={styles.formInput}
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </label>
-        <button type="submit" className={styles.btn}>
-          Add contact
-        </button>
-      </form>
-    </div>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      display={'flex'}
+      flexDirection={'column'}
+    >
+      <TextField
+        required
+        margin="normal"
+        id="name"
+        label="Name"
+        name="name"
+        type="text"
+      />
+      <TextField
+        required
+        margin="normal"
+        id="phone"
+        label="Phone number"
+        name="number"
+        type="tel"
+      />
+      <Button variant="contained" type="submit" sx={{ mt: 2 }}>
+        Add contact
+      </Button>
+    </Box>
+
+    //         pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+    //         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+
+    //         pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+    //         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
   );
 };

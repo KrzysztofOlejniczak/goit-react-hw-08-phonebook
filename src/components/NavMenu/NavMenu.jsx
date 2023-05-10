@@ -13,11 +13,14 @@ import LoginIcon from '@mui/icons-material/Login';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch } from 'react-redux';
+import { openModal } from 'redux/modalSlice';
 
-const loged = true;
+const logged = true;
 const name = 'Krzysztof';
 
 export const NavMenu = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -27,6 +30,10 @@ export const NavMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const addContact = () => {
+    dispatch(openModal());
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -39,7 +46,7 @@ export const NavMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            {loged ? (
+            {logged ? (
               <Avatar sx={{ width: 32, height: 32 }}>{name[0]}</Avatar>
             ) : (
               <MenuIcon sx={{ width: 32, height: 32 }} />
@@ -73,7 +80,7 @@ export const NavMenu = () => {
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
+              bgColor: 'background.paper',
               transform: 'translateY(-50%) rotate(45deg)',
               zIndex: 0,
             },
@@ -103,7 +110,8 @@ export const NavMenu = () => {
           Log in
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem disabled>{`Witaj ${name}`}</MenuItem>
+        <MenuItem onClick={addContact}>
           <ListItemIcon>
             <AddIcon fontSize="small" />
           </ListItemIcon>
