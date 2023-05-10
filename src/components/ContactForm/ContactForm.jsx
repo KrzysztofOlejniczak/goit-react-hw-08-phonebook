@@ -30,7 +30,6 @@ export const ContactForm = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      noValidate
       display={'flex'}
       flexDirection={'column'}
     >

@@ -29,7 +29,7 @@ export const LoginPage = () => {
           alignItems: 'center',
         }}
       >
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
