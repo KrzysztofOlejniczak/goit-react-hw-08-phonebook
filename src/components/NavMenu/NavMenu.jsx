@@ -80,7 +80,7 @@ export const NavMenu = () => {
               right: 14,
               width: 10,
               height: 10,
-              bgColor: 'background.paper',
+              bgcolor: 'background.paper',
               transform: 'translateY(-50%) rotate(45deg)',
               zIndex: 0,
             },

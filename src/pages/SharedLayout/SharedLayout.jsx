@@ -16,14 +16,14 @@ export const SharedLayout = () => {
       display="flex"
       flexDirection="column"
       height="100vh"
-      sx={{ bgColor: blue[50] }}
+      sx={{ bgcolor: blue[50] }}
     >
       <Container maxWidth="md" sx={{ my: 2 }}>
         <Box
           display="flex"
           flexDirection="column"
           minHeight="90vh"
-          sx={{ bgColor: 'white', boxShadow: 3 }}
+          sx={{ bgcolor: 'white', boxShadow: 3 }}
         >
           <Box
             display="flex"
@@ -31,7 +31,7 @@ export const SharedLayout = () => {
             flexWrap={'nowrap'}
             justifyContent={'space-between'}
             alignItems={'center'}
-            sx={{ p: 2, bgColor: yellow[700], boxShadow: 1 }}
+            sx={{ p: 2, bgcolor: yellow[700], boxShadow: 1 }}
           >
             <Link
               component={RoutedLink}
