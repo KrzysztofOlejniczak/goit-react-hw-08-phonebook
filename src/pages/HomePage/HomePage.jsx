@@ -1,14 +1,13 @@
 import { Link, Typography } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Navigate, Link as RouterLink } from 'react-router-dom';
 
 const logged = true;
 
 export const HomePage = () => {
-  const navigate = useNavigate();
   return (
     <>
       {logged ? (
-        navigate('/contacts', { replace: true })
+        <Navigate to={'/contacts'} />
       ) : (
         <>
           <Typography
