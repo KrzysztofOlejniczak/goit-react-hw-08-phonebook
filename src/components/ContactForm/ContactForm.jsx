@@ -11,7 +11,7 @@ export const ContactForm = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = form.elements.name.value;
-    const phone = form.elements.number.value;
+    const number = form.elements.number.value;
     if (
       contacts.find(
         contact =>
@@ -22,7 +22,7 @@ export const ContactForm = () => {
       alert(`${name.toUpperCase()} is already in contacts!`);
       return;
     }
-    dispatch(addContact({ name, phone }));
+    dispatch(addContact({ name, number }));
     form.reset();
   };
 

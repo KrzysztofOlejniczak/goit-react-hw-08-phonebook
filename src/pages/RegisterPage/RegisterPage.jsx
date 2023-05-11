@@ -7,15 +7,22 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { register } from 'redux/auth/operations';
 
-export const RegisterPage = () => {
-  const handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    dispatch(
+      register({
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+      })
+    );
+    form.reset();
   };
 
   return (
@@ -34,11 +41,11 @@ export const RegisterPage = () => {
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
-                name="firstName"
+                name="name"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="name"
+                label="Name"
                 autoFocus
               />
             </Grid>
@@ -84,3 +91,5 @@ export const RegisterPage = () => {
     </Container>
   );
 };
+
+export default RegisterPage;

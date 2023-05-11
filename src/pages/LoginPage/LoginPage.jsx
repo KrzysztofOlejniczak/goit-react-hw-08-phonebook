@@ -7,15 +7,21 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logIn } from 'redux/auth/operations';
 
-export const LoginPage = () => {
-  const handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+const LoginPage = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    dispatch(
+      logIn({
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+      })
+    );
+    form.reset();
   };
 
   return (
@@ -79,3 +85,5 @@ export const LoginPage = () => {
     </Container>
   );
 };
+
+export default LoginPage;

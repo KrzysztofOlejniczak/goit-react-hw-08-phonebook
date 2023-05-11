@@ -5,13 +5,17 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginIcon from '@mui/icons-material/Login';
-import { useNavigate } from 'react-router-dom';
+import Logout from '@mui/icons-material/Logout';
+import { Avatar } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from 'react-redux';
+import { openModal } from 'redux/modalSlice';
+import { selectUser } from 'redux/auth/selectors';
+import { logOut } from 'redux/auth/operations';
 
-export const NavMenu = () => {
-  const navigate = useNavigate();
+export const UserMenu = () => {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
@@ -19,6 +23,9 @@ export const NavMenu = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const addContact = () => {
+    dispatch(openModal());
   };
 
   return (
@@ -33,7 +40,7 @@ export const NavMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <MenuIcon sx={{ width: 32, height: 32 }} />
+            <Avatar sx={{ width: 32, height: 32 }}>{user.name[0]}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -72,25 +79,22 @@ export const NavMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem
-          onClick={() => {
-            navigate('/signup', { replace: true });
-          }}
-        >
+        <MenuItem disabled>{`Hello ${user.name}`}</MenuItem>
+        <MenuItem onClick={addContact}>
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <AddIcon fontSize="small" />
           </ListItemIcon>
-          Sign up
+          Add contact
         </MenuItem>
         <MenuItem
           onClick={() => {
-            navigate('/login', { replace: true });
+            dispatch(logOut());
           }}
         >
           <ListItemIcon>
-            <LoginIcon fontSize="small" />
+            <Logout fontSize="small" />
           </ListItemIcon>
-          Log in
+          Logout
         </MenuItem>
       </Menu>
     </React.Fragment>

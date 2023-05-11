@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export const ContactsPage = () => {
+const ContactsPage = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
   const modalOpen = useSelector(selectModal);
@@ -50,3 +50,5 @@ export const ContactsPage = () => {
     </>
   );
 };
+
+export default ContactsPage;

@@ -71,7 +71,7 @@ export const ContactList = ({ filter, contacts }) => {
               <ListItemAvatar>
                 <Avatar {...stringAvatar(el.name)} />
               </ListItemAvatar>
-              <ListItemText primary={el.name} secondary={el.phone} />
+              <ListItemText primary={el.name} secondary={el.number} />
             </ListItem>
           ))}
       </List>

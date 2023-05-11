@@ -1,12 +1,13 @@
 import { Link, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { Navigate, Link as RouterLink } from 'react-router-dom';
+import { selectIsLoggedIn } from 'redux/auth/selectors';
 
-const logged = true;
-
-export const HomePage = () => {
+const HomePage = () => {
+  const loggedIn = useSelector(selectIsLoggedIn);
   return (
     <>
-      {logged ? (
+      {loggedIn ? (
         <Navigate to={'/contacts'} />
       ) : (
         <>
@@ -32,3 +33,5 @@ export const HomePage = () => {
     </>
   );
 };
+
+export default HomePage;
