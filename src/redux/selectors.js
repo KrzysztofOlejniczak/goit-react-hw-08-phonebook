@@ -1,6 +1,8 @@
 export const selectFilter = state => state.filter;
 
-export const selectModal = state => state.modal;
+export const selectModalOpen = state => state.modal.isOpen;
+
+export const selectModalId = state => state.modal.id;
 
 export const selectContacts = state => state.contacts.items;
 

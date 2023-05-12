@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/operations';
+import { Helmet } from 'react-helmet-async';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ const RegisterPage = () => {
 
   return (
     <Container component="div" maxWidth="xs">
+      <Helmet>
+        <title>PhoneBook Register</title>
+      </Helmet>
       <CssBaseline />
       <Box
         sx={{

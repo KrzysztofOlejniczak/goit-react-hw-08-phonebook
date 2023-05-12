@@ -8,14 +8,21 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { openModal } from 'redux/modalSlice';
 
 export const ContactList = ({ filter, contacts }) => {
   const dispatch = useDispatch();
 
   const handleDelete = id => {
     dispatch(deleteContact(id));
+  };
+
+  const handleEdit = id => {
+    dispatch(openModal(id));
   };
 
   function stringToColor(string) {
@@ -46,26 +53,43 @@ export const ContactList = ({ filter, contacts }) => {
       children: `${name[0]}`,
     };
   }
+
+  const filteredContacts = contacts.filter(el => {
+    return el.name.toLowerCase().includes(filter.toLowerCase());
+  });
   return (
     <>
-      <List>
-        {contacts
-          .filter(el => {
-            return el.name.toLowerCase().includes(filter.toLowerCase());
-          })
-          .map(el => (
+      {!filteredContacts.length ? (
+        <Typography align="center" sx={{ mt: 2 }}>
+          No contact found.
+        </Typography>
+      ) : (
+        <List>
+          {filteredContacts.map(el => (
             <ListItem
               key={el.id}
               secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => {
-                    handleDelete(el.id);
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                <>
+                  <IconButton
+                    edge="end"
+                    aria-label="edit"
+                    onClick={() => {
+                      handleEdit(el.id);
+                    }}
+                    sx={{ mr: 1 }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => {
+                      handleDelete(el.id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </>
               }
             >
               <ListItemAvatar>
@@ -74,7 +98,8 @@ export const ContactList = ({ filter, contacts }) => {
               <ListItemText primary={el.name} secondary={el.number} />
             </ListItem>
           ))}
-      </List>
+        </List>
+      )}
     </>
   );
 };

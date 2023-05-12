@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/auth/operations';
+import { Helmet } from 'react-helmet-async';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ const LoginPage = () => {
 
   return (
     <Container component="div" maxWidth="xs">
+      <Helmet>
+        <title>PhoneBook Login</title>
+      </Helmet>
       <CssBaseline />
       <Box
         sx={{

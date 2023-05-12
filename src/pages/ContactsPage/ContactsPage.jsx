@@ -2,11 +2,18 @@ import { useEffect } from 'react';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectFilter, selectModal } from 'redux/selectors';
+import {
+  selectContacts,
+  selectFilter,
+  selectModalId,
+  selectModalOpen,
+} from 'redux/selectors';
 import { fetchContacts } from 'redux/operation';
 import { Box, Modal } from '@mui/material';
 import { closeModal } from 'redux/modalSlice';
 import { ContactForm } from 'components/ContactForm/ContactForm';
+import { Helmet } from 'react-helmet-async';
+import { EditForm } from 'components/EditForm/EditForm';
 
 const style = {
   position: 'absolute',
@@ -22,7 +29,8 @@ const style = {
 const ContactsPage = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
-  const modalOpen = useSelector(selectModal);
+  const modalOpen = useSelector(selectModalOpen);
+  const modalId = useSelector(selectModalId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,6 +43,9 @@ const ContactsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>PhoneBook Contacts</title>
+      </Helmet>
       <Filter />
       <ContactList contacts={contacts} filter={filter} />
       <Modal
@@ -44,7 +55,7 @@ const ContactsPage = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ContactForm />
+          {!!modalId ? <EditForm id={modalId} /> : <ContactForm />}
         </Box>
       </Modal>
     </>

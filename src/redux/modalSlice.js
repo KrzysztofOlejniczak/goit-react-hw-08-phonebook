@@ -1,24 +1,33 @@
-import { addContact } from './operation';
+import { addContact, updateContact } from './operation';
 
 const { createSlice } = require('@reduxjs/toolkit');
 
-const modalInitialState = false;
+const modalInitialState = {
+  isOpen: false,
+  id: null,
+};
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState: modalInitialState,
   reducers: {
-    openModal(state) {
-      return true;
+    openModal(state, action) {
+      state.isOpen = true;
+      state.id = action.payload;
     },
-    closeModal(state) {
-      return false;
+    closeModal(state, action) {
+      state.isOpen = false;
+      state.id = null;
     },
   },
   extraReducers: builder => {
-    builder.addCase(addContact.fulfilled, _ => {
-      return false;
-    });
+    builder
+      .addCase(addContact.fulfilled, state => {
+        state.isOpen = false;
+      })
+      .addCase(updateContact.fulfilled, state => {
+        state.isOpen = false;
+      });
   },
 });
 

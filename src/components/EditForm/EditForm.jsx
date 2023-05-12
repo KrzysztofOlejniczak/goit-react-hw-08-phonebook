@@ -1,13 +1,14 @@
 import { Box, Button, TextField } from '@mui/material';
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operation';
+import { updateContact } from 'redux/operation';
 import { selectContacts } from 'redux/selectors';
 
-export const ContactForm = () => {
+export const EditForm = ({ id = null }) => {
   const [errorName, setErrorName] = useState('');
   const [errorPhone, setErrorPhone] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   const validateInputName = input => {
     const nameRegex =
@@ -20,6 +21,7 @@ export const ContactForm = () => {
 
   const handleInputChangeName = event => {
     const inputValue = event.target.value;
+    setName(inputValue);
     setErrorName(validateInputName(inputValue.trim()));
   };
 
@@ -34,6 +36,7 @@ export const ContactForm = () => {
 
   const handleInputChangePhone = event => {
     const inputValue = event.target.value;
+    setPhone(inputValue);
     setErrorPhone(validateInputPhone(inputValue));
   };
 
@@ -45,21 +48,16 @@ export const ContactForm = () => {
     const form = e.currentTarget;
     const name = form.elements.name.value.trim();
     const number = form.elements.number.value;
-    if (
-      contacts.find(
-        contact =>
-          contact.name.toLowerCase().replace(/\s/g, '') ===
-          name.toLowerCase().replace(/\s/g, '')
-      )
-    ) {
-      toast(`${name.toUpperCase()} is already in contacts!`, {
-        icon: '⚠️',
-      });
-      return;
-    }
-    dispatch(addContact({ name, number }));
+    dispatch(updateContact({ contactId: id, name, number }));
     form.reset();
   };
+
+  const idContact = contacts.find(el => el.id === id);
+
+  useEffect(() => {
+    setName(idContact.name);
+    setPhone(idContact.number);
+  }, [idContact]);
 
   return (
     <Box
@@ -69,6 +67,7 @@ export const ContactForm = () => {
       flexDirection={'column'}
     >
       <TextField
+        value={name}
         required
         margin="normal"
         id="name"
@@ -80,6 +79,7 @@ export const ContactForm = () => {
         onChange={handleInputChangeName}
       />
       <TextField
+        value={phone}
         required
         margin="normal"
         id="phone"
@@ -96,7 +96,7 @@ export const ContactForm = () => {
         sx={{ mt: 2 }}
         disabled={!!errorName || !!errorPhone}
       >
-        Add contact
+        Edit contact
       </Button>
     </Box>
   );
