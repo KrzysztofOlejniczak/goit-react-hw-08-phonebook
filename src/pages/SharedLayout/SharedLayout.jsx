@@ -7,14 +7,14 @@ import { Suspense } from 'react';
 import { Outlet, Link as RoutedLink } from 'react-router-dom';
 import { Spinner } from 'components/Spinner/Spinner';
 import { useSelector } from 'react-redux';
-import { selectError, selectIsLoading } from 'redux/selectors';
-import { selectIsLoggedIn } from 'redux/auth/selectors';
+import { selectError, selectIsLoading } from 'redux/contacts/selectors';
 import { Toaster } from 'react-hot-toast';
+import { useAuth } from 'hooks/useAuth';
 
 export const SharedLayout = () => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  const loggedIn = useSelector(selectIsLoggedIn);
+  const { isLoggedIn } = useAuth();
   return (
     <Box
       display="flex"
@@ -45,7 +45,7 @@ export const SharedLayout = () => {
             >
               <Logo />
             </Link>
-            {loggedIn ? <UserMenu /> : <NavMenu />}
+            {isLoggedIn ? <UserMenu /> : <NavMenu />}
           </Box>
           <Box display="flex" flexDirection="column" sx={{ p: 2 }}>
             <Suspense fallback={null}>

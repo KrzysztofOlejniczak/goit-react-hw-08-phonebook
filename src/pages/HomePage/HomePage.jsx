@@ -1,17 +1,16 @@
 import { Link, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import { useSelector } from 'react-redux';
 import { Navigate, Link as RouterLink } from 'react-router-dom';
-import { selectIsLoggedIn } from 'redux/auth/selectors';
+import { useAuth } from 'hooks/useAuth';
 
 const HomePage = () => {
-  const loggedIn = useSelector(selectIsLoggedIn);
+  const { isLoggedIn } = useAuth();
   return (
     <>
       <Helmet>
         <title>PhoneBook</title>
       </Helmet>
-      {loggedIn ? (
+      {isLoggedIn ? (
         <Navigate to={'/contacts'} />
       ) : (
         <>

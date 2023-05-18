@@ -1,9 +1,10 @@
 import { Box, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { debounce } from 'lodash';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operation';
-import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/contacts/operation';
+import { selectContacts } from 'redux/contacts/selectors';
 
 export const ContactForm = () => {
   const [errorName, setErrorName] = useState('');
@@ -20,8 +21,13 @@ export const ContactForm = () => {
 
   const handleInputChangeName = event => {
     const inputValue = event.target.value;
-    setErrorName(validateInputName(inputValue.trim()));
+    setErrorName(validateInputName(inputValue));
   };
+  // eslint-disable-next-line
+  const debouncedHandleInputChangeName = useCallback(
+    debounce(e => handleInputChangeName(e), 200),
+    []
+  );
 
   const validateInputPhone = input => {
     const phoneRegex =
@@ -36,6 +42,11 @@ export const ContactForm = () => {
     const inputValue = event.target.value;
     setErrorPhone(validateInputPhone(inputValue));
   };
+  // eslint-disable-next-line
+  const debouncedHandleInputChangePhone = useCallback(
+    debounce(e => handleInputChangePhone(e), 200),
+    []
+  );
 
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
@@ -52,11 +63,28 @@ export const ContactForm = () => {
           name.toLowerCase().replace(/\s/g, '')
       )
     ) {
-      toast(`${name.toUpperCase()} is already in contacts!`, {
+      toast(`${name} is already in contacts!`, {
         icon: '⚠️',
       });
       return;
     }
+
+    if (
+      contacts.find(
+        contact =>
+          contact.number.replace(/\s/g, '') === number.replace(/\s/g, '')
+      )
+    ) {
+      const index = contacts.findIndex(
+        contact =>
+          contact.number.replace(/\s/g, '') === number.replace(/\s/g, '')
+      );
+      toast(`${number} is already in contacts! (${contacts[index].name})`, {
+        icon: '⚠️',
+      });
+      return;
+    }
+
     dispatch(addContact({ name, number }));
     form.reset();
   };
@@ -77,7 +105,7 @@ export const ContactForm = () => {
         type="text"
         error={!!errorName}
         helperText={errorName}
-        onChange={handleInputChangeName}
+        onChange={debouncedHandleInputChangeName}
       />
       <TextField
         required
@@ -88,7 +116,7 @@ export const ContactForm = () => {
         type="tel"
         error={!!errorPhone}
         helperText={errorPhone}
-        onChange={handleInputChangePhone}
+        onChange={debouncedHandleInputChangePhone}
       />
       <Button
         variant="contained"

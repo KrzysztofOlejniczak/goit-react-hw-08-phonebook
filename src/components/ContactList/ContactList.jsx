@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operation';
+import { deleteContact } from 'redux/contacts/operation';
 import {
   Avatar,
   IconButton,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { openModal } from 'redux/modalSlice';
+import { openModal } from 'redux/contacts/modalSlice';
 
 export const ContactList = ({ filter, contacts }) => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export const ContactList = ({ filter, contacts }) => {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name[0]}`,
+      children: `${name[0].toUpperCase()}`,
     };
   }
 

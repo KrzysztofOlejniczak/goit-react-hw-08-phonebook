@@ -7,10 +7,10 @@ import {
   selectFilter,
   selectModalId,
   selectModalOpen,
-} from 'redux/selectors';
-import { fetchContacts } from 'redux/operation';
+} from 'redux/contacts/selectors';
+import { fetchContacts } from 'redux/contacts/operation';
 import { Box, Modal } from '@mui/material';
-import { closeModal } from 'redux/modalSlice';
+import { closeModal } from 'redux/contacts/modalSlice';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Helmet } from 'react-helmet-async';
 import { EditForm } from 'components/EditForm/EditForm';

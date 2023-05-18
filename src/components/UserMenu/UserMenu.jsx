@@ -9,7 +9,7 @@ import Logout from '@mui/icons-material/Logout';
 import { Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { openModal } from 'redux/modalSlice';
+import { openModal } from 'redux/contacts/modalSlice';
 import { selectUser } from 'redux/auth/selectors';
 import { logOut } from 'redux/auth/operations';
 
@@ -79,7 +79,10 @@ export const UserMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem disabled>{`Hello ${user.name}`}</MenuItem>
+        <MenuItem
+          disabled
+          style={{ opacity: 1 }}
+        >{`Hello ${user.name}`}</MenuItem>
         <MenuItem onClick={addContact}>
           <ListItemIcon>
             <AddIcon fontSize="small" />
