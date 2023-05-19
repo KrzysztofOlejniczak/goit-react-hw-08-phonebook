@@ -4,6 +4,7 @@ import { deleteContact } from 'redux/contacts/operation';
 import {
   Avatar,
   IconButton,
+  Link,
   List,
   ListItem,
   ListItemAvatar,
@@ -95,7 +96,17 @@ export const ContactList = ({ filter, contacts }) => {
               <ListItemAvatar>
                 <Avatar {...stringAvatar(el.name)} />
               </ListItemAvatar>
-              <ListItemText primary={el.name} secondary={el.number} />
+              <ListItemText
+                primary={el.name}
+                secondary={
+                  <Link
+                    href={`tel:${el.number}`}
+                    sx={{ textDecoration: 'none' }}
+                  >
+                    {el.number}
+                  </Link>
+                }
+              />
             </ListItem>
           ))}
         </List>
